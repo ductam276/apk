@@ -2,7 +2,7 @@
 
 # =================================================================
 # Script tự động cài đặt ứng dụng APK từ GitHub Release
-# Nguồn: https://github.com/ductam276/apk/releases/tag/Update-30%2F4%2F2026
+# Nguồn: https://github.com/ductam276/apk/
 # =================================================================
 
 # Thông tin API
