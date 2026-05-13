@@ -7,13 +7,21 @@
 
 # Thông tin API
 REPO="ductam276/apk"
-TAG="Update-30%2F4%2F2026"
 API_URL="https://api.github.com/repos/$REPO/releases/tags/$TAG"
 TEMP_DIR="repo_apks_temp"
 
 # Tạo thư mục tạm
 mkdir -p "$TEMP_DIR"
+read -p "Pick ROM: 1: root ; 2: nonroot" ROM_CHOICE
 
+if [ "$ROM_CHOICE" == "1" ]; then
+    TAG="root"
+elif [ "$ROM_CHOICE" == "2" ]; then
+    TAG="nonroot"
+else
+    echo "Lựa chọn không hợp lệ!"
+    exit 1
+fi
 echo "--- Đang kiểm tra kết nối ADB ---"
 if ! adb devices | grep -q -w "device"; then
     echo "Lỗi: Không tìm thấy thiết bị Android. Hãy bật USB Debugging và kết nối lại."
