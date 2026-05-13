@@ -1,1 +1,1 @@
-change tag to ``nonroot`` if your install rom without root included, tag ``root`` for rom with preroot ( use sukiSU lkm)
+Update choice tag in srcipts, 1 for root (sukisu), 2 for non-root
