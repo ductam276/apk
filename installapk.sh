@@ -15,7 +15,7 @@ if ! adb devices | grep -q -w "device"; then
     exit 1
 fi
 }
-install_apk() {
+installapk() {
 mkdir -p "$TEMP_DIR"
 echo "Import Apks list from github"
 echo "Tag is $TAG"
