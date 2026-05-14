@@ -60,7 +60,7 @@ echo "Choose install packages you want"
 echo "1: Default"
 echo "2: Default + Root"
 echo "3: Root only"
-read -p ROM_CHOICE
+read -p "Chose (1-3)" ROM_CHOICE
 checking
 if [ "$ROM_CHOICE" == "1" ]; then
     TAG="default"
