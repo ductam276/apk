@@ -60,7 +60,7 @@ for url in $APK_URLS; do
 
     echo ""
     echo "[$count] Đang tải: $filename..."
-    curl -s -L -o "$TEMP_DIR/$filename" "$url"
+    curl -sL -o "$TEMP_DIR/$filename" "$url"
 
     if [ $? -eq 0 ]; then
         echo "Installing to devices"
