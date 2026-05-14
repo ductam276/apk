@@ -8,30 +8,6 @@
 # Thông tin API
 REPO="ductam276/apk"
 TEMP_DIR="apks_temp"
-
-# Tạo thư mục tạm
-echo "Choose install packages you want"
-echo "1: Default"
-echo "2: Default + Root"
-echo "3: Root only"
-read -p ROM_CHOICE
-checking
-if [ "$ROM_CHOICE" == "1" ]; then
-    TAG="default"
-    installapk
-elif [ "$ROM_CHOICE" == "2" ]; then
-    TAG="default"
-    installapk
-    TAG="root"
-    installapk
-elif [ "$ROM_CHOICE" == "3" ]; then
-    TAG="root"
-    installapk
-else
-    echo "Error!"
-    exit 1
-fi
-
 checking (){
 echo "Checking adb devices"
 if ! adb devices | grep -q -w "device"; then
@@ -39,7 +15,6 @@ if ! adb devices | grep -q -w "device"; then
     exit 1
 fi
 }
-
 install_apk() {
 mkdir -p "$TEMP_DIR"
 echo "Import Apks list from github"
@@ -80,4 +55,27 @@ echo ""
 echo "Clear temp dir"
 rm -rf "$TEMP_DIR"
 }
+
+echo "Choose install packages you want"
+echo "1: Default"
+echo "2: Default + Root"
+echo "3: Root only"
+read -p ROM_CHOICE
+checking
+if [ "$ROM_CHOICE" == "1" ]; then
+    TAG="default"
+    installapk
+elif [ "$ROM_CHOICE" == "2" ]; then
+    TAG="default"
+    installapk
+    TAG="root"
+    installapk
+elif [ "$ROM_CHOICE" == "3" ]; then
+    TAG="root"
+    installapk
+else
+    echo "Error!"
+    exit 1
+fi
+
 echo "Install apks done!"
