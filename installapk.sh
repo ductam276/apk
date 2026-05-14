@@ -14,7 +14,7 @@ echo "Choose install packages you want"
 echo "1: Default"
 echo "2: Default + Root"
 echo "3: Root only"
-read -p "1: yes ; 2: no" ROM_CHOICE
+read -p ROM_CHOICE
 checking
 if [ "$ROM_CHOICE" == "1" ]; then
     TAG="default"
@@ -28,7 +28,7 @@ elif [ "$ROM_CHOICE" == "3" ]; then
     TAG="root"
     installapk
 else
-    echo "Lựa chọn không hợp lệ!"
+    echo "Error!"
     exit 1
 fi
 
@@ -64,7 +64,6 @@ for url in $APK_URLS; do
 
     if [ $? -eq 0 ]; then
         echo "Installing to devices"
-        # -r: cài đè, -d: cho phép hạ cấp (downgrade)
         adb install "$TEMP_DIR/$filename"
 
         if [ $? -eq 0 ]; then
