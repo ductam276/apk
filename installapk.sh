@@ -7,33 +7,49 @@
 
 # Thông tin API
 REPO="ductam276/apk"
-API_URL="https://api.github.com/repos/$REPO/releases/tags/$TAG"
-TEMP_DIR="repo_apks_temp"
+TEMP_DIR="apks_temp"
 
 # Tạo thư mục tạm
-mkdir -p "$TEMP_DIR"
-read -p "Pick ROM: 1: root ; 2: nonroot" ROM_CHOICE
-
+echo "Choose install packages you want"
+echo "1: Default"
+echo "2: Default + Root"
+echo "3: Root only"
+read -p "1: yes ; 2: no" ROM_CHOICE
+checking
 if [ "$ROM_CHOICE" == "1" ]; then
-    TAG="root"
+    TAG="default"
+    installapk
 elif [ "$ROM_CHOICE" == "2" ]; then
-    TAG="nonroot"
+    TAG="default"
+    installapk
+    TAG="root"
+    installapk
+elif [ "$ROM_CHOICE" == "3" ]; then
+    TAG="root"
+    installapk
 else
     echo "Lựa chọn không hợp lệ!"
     exit 1
 fi
-echo "--- Đang kiểm tra kết nối ADB ---"
+
+checking (){
+echo "Checking adb devices"
 if ! adb devices | grep -q -w "device"; then
-    echo "Lỗi: Không tìm thấy thiết bị Android. Hãy bật USB Debugging và kết nối lại."
+    echo "Error, No Adb devices found"
     exit 1
 fi
+}
 
-echo "--- Đang lấy danh sách ứng dụng từ GitHub ---"
+install_apk() {
+mkdir -p "$TEMP_DIR"
+echo "Import Apks list from github"
+echo "Tag is $TAG"
 # Lấy danh sách link tải APK
+API_URL="https://api.github.com/repos/$REPO/releases/tags/$TAG"
 APK_URLS=$(curl -s "$API_URL" | jq -r '.assets[] | select(.name | endswith(".apk")) | .browser_download_url')
 
 if [ -z "$APK_URLS" ] || [ "$APK_URLS" == "null" ]; then
-    echo "Lỗi: Không tìm thấy file APK nào hoặc bị GitHub giới hạn truy cập (Rate Limit)."
+    echo "No apks found from github"
     exit 1
 fi
 
@@ -47,22 +63,22 @@ for url in $APK_URLS; do
     curl -L -o "$TEMP_DIR/$filename" "$url"
 
     if [ $? -eq 0 ]; then
-        echo "--> Đang cài đặt vào điện thoại..."
+        echo "Installing to devices"
         # -r: cài đè, -d: cho phép hạ cấp (downgrade)
-        adb install -r -d "$TEMP_DIR/$filename"
+        adb install "$TEMP_DIR/$filename"
 
         if [ $? -eq 0 ]; then
-            echo "Thành công: $filename"
+            echo "Success: $filename"
         else
-            echo "THẤT BẠI: $filename"
+            echo "Failed: $filename"
         fi
     else
-        echo "Lỗi khi tải file: $filename"
+        echo "Cant download: $filename"
     fi
 done
 
 echo ""
-echo "--- Đang dọn dẹp bộ nhớ tạm ---"
+echo "Clear temp dir"
 rm -rf "$TEMP_DIR"
-
-echo "=== HOÀN TẤT: Đã xử lý xong toàn bộ danh sách! ==="
+}
+echo "Install apks done!"
