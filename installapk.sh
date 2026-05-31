@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # =================================================================
-# Nguồn: https://github.com/ductam276/apk/
+# Source: https://github.com/ductam276/apk/
 # =================================================================
 
-# Thông tin API
+#API
 REPO="ductam276/apk"
 TEMP_DIR="apks_temp"
 checking (){
