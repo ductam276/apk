@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # =================================================================
-# Script tự động cài đặt ứng dụng APK từ GitHub Release
 # Nguồn: https://github.com/ductam276/apk/
 # =================================================================
 
@@ -34,7 +33,7 @@ for url in $APK_URLS; do
     count=$((count + 1))
 
     echo ""
-    echo "[$count] Đang tải: $filename..."
+    echo "[$count] Downloading: $filename..."
     curl -sL -o "$TEMP_DIR/$filename" "$url"
 
     if [ $? -eq 0 ]; then
